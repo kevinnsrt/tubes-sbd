@@ -97,9 +97,35 @@ class DashboardController extends Controller
     }
     //grafik 2 end
 
-    //grafik 5 start
-    $averageupvotes = DB::table('datasets')->avg('UpVote');
+
+    $businesstag = DB::table('datasets')
+    ->join('dataset_tags', 'datasets.id_dataset', '=', 'dataset_tags.id_dataset')
+    ->join('tags', 'dataset_tags.id_tag', '=', 'tags.id_tag')
+    ->where('tags.tag_name', 'business')
+    ->get();
+
+$tabulartag = DB::table('datasets')
+    ->join('dataset_tags', 'datasets.id_dataset', '=', 'dataset_tags.id_dataset')
+    ->join('tags', 'dataset_tags.id_tag', '=', 'tags.id_tag')
+    ->where('tags.tag_name', 'tabular')
+    ->get();
+
+//grafik 5 start
+    $averagebusiness = $businesstag->avg('download_count');
+    $averagetabular = $tabulartag->avg('download_count');
+
     //grafik 5 end
+
+    // grafik 6 start
+    $averagebusinessviews = $businesstag->avg('views');
+    $averagetabularviews = $tabulartag->avg('views');
+    // grafik 6 end
+
+    // grafik 7 start
+    $averagebusinessusability = $businesstag->avg('usability');
+    $averagetabularusability = $tabulartag->avg('usability');
+    // grafik 7 end
+
 
 
     return view('dashboard', ['totalUsers' => $totalUsers,'totalDataset' => $totalDataset,'totalModel' => $totalModel,'totalCompetitions' => $totalCompetitions,'totalData'=>$totalData,
@@ -112,7 +138,13 @@ class DashboardController extends Controller
     'total100kData'=>$total100kData,
     'total1000kData'=>$total1000kData,
     'totalSwagData'=>$totalSwagData,
-    'averageupvotes'=>$averageupvotes,
+    'averagebusiness'=>$averagebusiness,
+    'averagetabular'=>$averagetabular,
+    'averagebusinessviews'=>$averagebusinessviews,
+    'averagetabularviews'=>$averagetabularviews,
+    'averagebusinessusability'=>$averagebusinessusability,
+    'averagetabularusability'=>$averagetabularusability,
+
 ]);
 }
     /**

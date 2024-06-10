@@ -4,13 +4,14 @@ use App\Models\Competitions;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DatasetsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CompetitionsController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::get('/totalusers','TotalUsersController@getTotalUsers')->middleware(['auth','verified']);
 Route::get('/dashboard', function () {
@@ -36,6 +37,10 @@ Route::delete('/delete/{competition_id}', [CompetitionsController::class, 'destr
 Route::delete('/delete/{id}/model', [ModelController::class, 'destroy'])->middleware(['auth','verified']);
 Route::get('/competitions/{competition_id}/edit', [CompetitionsController::class, 'edit'])->middleware(['auth', 'verified']);
 Route::put('/competitions/{competition_id}/edit', [CompetitionsController::class, 'update'])->middleware(['auth', 'verified']);
+Route::get('/search/model', [SearchController::class, 'model'])->middleware(['auth', 'verified']);
+Route::get('/search/datasets', [SearchController::class, 'datasets'])->middleware(['auth', 'verified']);
+Route::get('/search/competitions', [SearchController::class, 'competitions'])->middleware(['auth', 'verified']);
+Route::get('/search/users', [SearchController::class, 'users'])->middleware(['auth', 'verified']);
 
 Route::get('/users/{user_id}/edit', [UsersController::class, 'edit'])->middleware(['auth', 'verified']);
 Route::put('/users/{user_id}/edit', [UsersController::class, 'update'])->middleware(['auth', 'verified']);

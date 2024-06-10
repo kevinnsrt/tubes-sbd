@@ -35,8 +35,20 @@
 
               <div class="card w-full bg-gray-50 shadow-xl">
                 <div class="card-body">
-                    <div id="avgupvotes"></div>
+                    <div id="averagedownloads"></div>
               </div>
+
+              <div class="card w-full bg-gray-50 shadow-xl">
+                <div class="card-body">
+                    <div id="averageviews"></div>
+              </div>
+
+              <div class="card w-full bg-gray-50 shadow-xl">
+                <div class="card-body">
+                    <div id="averageusability"></div>
+              </div>
+
+
 
 
 
@@ -274,53 +286,117 @@
   {{-- grafik 3 end --}}
 
 {{-- grafik 5 start --}}
+
 <script>
     var options = {
           series: [{
-            name:'Total Datasets',
-          data: [{{ $totalDataset }}]
-        }, {
-            name:'Average UpVote',
-          data: [{{ $averageupvotes }}]
+          data: [{{ $averagebusiness }},{{ $averagetabular }}]
         }],
           chart: {
           type: 'bar',
-          height: 430
+          height: 350
         },
         plotOptions: {
           bar: {
+            borderRadius: 4,
+            borderRadiusApplication: 'end',
             horizontal: true,
-            dataLabels: {
-              position: 'top',
-            },
           }
+        },
+
+        title: {
+            text: 'Average Downloads',
+            align: 'center',
+        },
+        fill:{
+            colors:['#A300D6','#00B1F2']
         },
         dataLabels: {
-          enabled: true,
-          offsetX: -6,
-          style: {
-            fontSize: '12px',
-            colors: ['#fff']
-          }
-        },
-        stroke: {
-          show: true,
-          width: 1,
-          colors: ['#fff']
-        },
-        tooltip: {
-          shared: true,
-          intersect: false
+          enabled: false
         },
         xaxis: {
-          categories: ['Datasets'],
-        },
+          categories: ['Business Tags', 'Tabular Tags',
+          ],
+        }
         };
 
-        var chart = new ApexCharts(document.querySelector("#avgupvotes"), options);
+        var chart = new ApexCharts(document.querySelector("#averagedownloads"), options);
         chart.render();
 </script>
 {{-- grafik 5 end --}}
 
+{{-- grafik 6 start --}}
+<script>
+    var options = {
+          series: [{
+          data: [{{ $averagebusinessviews }},{{ $averagetabularviews }}]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            borderRadiusApplication: 'end',
+            horizontal: true,
+          }
+        },
+        fill:{
+            colors:['#DC962D']
+        },
+        title: {
+            text: 'Average Views',
+            align: 'center',
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ['Business Tags', 'Tabular Tags',
+          ],
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#averageviews"), options);
+        chart.render();
+</script>
+{{-- grafik 6 end --}}
+{{-- grafik 7 start --}}
+<script>
+    var options = {
+      series: [{
+        data: [{{ $averagebusinessusability }},{{ $averagetabularusability }}]
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: false,
+        }
+      },
+      grid:{
+    row:{
+        colors: ['#A0EC93']
+    }
+    },
+    fill:{
+        colors:['#24B50C'],
+    },
+      dataLabels: {
+        enabled:false
+      },
+      xaxis: {
+        categories: ['Business','Tabular']
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#averageusability"), options);
+    chart.render();
+  </script>
+{{-- grafik 7 end --}}
 </body>
 </html>
